@@ -111,12 +111,26 @@ yarn add postcss-px-to-viewport-8-plugin -D
   selectorBlackList: [],
   minPixelValue: 1,
   mediaQuery: false,
+  mediaScreen: [],
   replace: true,
   exclude: [],
   landscape: false,
   landscapeUnit: 'vw',
   landscapeWidth: 568
 }
+```
+
+**MediaScreenOption**
+
+```ts
+type MediaScreenOption = {
+  screen: string;
+  viewportWidth?: number | ((filePath: string) => number | undefined);
+  //default vw
+  viewportUnit?: string;
+  //default px
+  unitToConvert?: string;
+};
 ```
 
 ## API 说明
@@ -132,6 +146,7 @@ yarn add postcss-px-to-viewport-8-plugin -D
 | `selectorBlackList` | 需要忽略的 CSS 选择器，不会转为视口单位，使用原有的 px 等单位 | `string[]` | [] |
 | `minPixelValue` | 设置最小的转换数值，如果为 1 的话，只有大于 1 的值会被转换 | `number` | 1 |
 | `mediaQuery` | 媒体查询里的单位是否需要转换单位 | `boolean` | false |
+| `mediaScreen` | 根据媒体查询参数进行匹配，若匹配成功，则使用匹配的 viewportWidth | `MediaScreenOption[]` |
 | `replace` | 是否直接更换属性值，而不添加备用属性 | `boolean` | true |
 | `landscape` | 是否添加根据 `landscapeWidth` 生成的媒体查询条件 `@media (orientation: landscape)` | `boolean` | false |
 | `landscapeUnit` | 横屏时使用的单位 | `string` | vw |
@@ -161,22 +176,55 @@ yarn add postcss-px-to-viewport-8-plugin -D
 
 Example:
 
+```js
+{
+   mediaScreen: [{ screen: 'min-width: 750px', viewportWidth: 750 }],
+}
+```
+
 ```css
 /* example input: */
 .class {
-  /* px-to-viewport-ignore-next */
-  width: 10px;
-  padding: 10px;
-  height: 10px; /* px-to-viewport-ignore */
-  border: solid 2px #000; /* px-to-viewport-ignore */
+  margin: -10px 0.5vh;
+  padding: 5vmin 9.5px 1px;
+  border: 3px solid black;
+  border-bottom-width: 1px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.class2 {
+  border: 1px solid black;
+  margin-bottom: 1px;
+  font-size: 20px;
+  line-height: 30px;
+}
+@media (min-width: 750px) {
+  .class3 {
+    font-size: 16px;
+    line-height: 22px;
+  }
 }
 
 /* example output: */
 .class {
-  width: 10px;
-  padding: 3.125vw;
-  height: 10px;
-  border: solid 2px #000;
+  margin: -3.125vw 0.5vh;
+  padding: 5vmin 2.96875vw 1px;
+  border: 0.9375vw solid black;
+  border-bottom-width: 1px;
+  font-size: 4.375vw;
+  line-height: 6.25vw;
+}
+.class2 {
+  border: 1px solid black;
+  margin-bottom: 1px;
+  font-size: 6.25vw;
+  line-height: 9.375vw;
+}
+@media (min-width: 750px) {
+  .class3 {
+    font-size: 2.13333vw;
+    line-height: 2.93333vw;
+  }
 }
 ```
 
@@ -228,6 +276,7 @@ export default defineConfig({
           selectorBlackList: [], // 需要忽略的CSS选择器，不会转为视口单位，使用原有的px等单位。
           minPixelValue: 1, // 设置最小的转换数值，如果为1的话，只有大于1的值会被转换
           mediaQuery: true, // 媒体查询里的单位是否需要转换单位
+          mediaScreen: [],
           replace: true, //  是否直接更换属性值，而不添加备用属性
           exclude: [/node_modules\/ant-design-vue/], // 忽略某些文件夹下的文件或特定文件，例如 'node_modules' 下的文件
           include: [], // 如果设置了include，那将只有匹配到的文件才会被转换
@@ -240,7 +289,3 @@ export default defineConfig({
   },
 });
 ```
-
-## 作者
-
-- [lkxian888](https://github.com/lkxian888)
