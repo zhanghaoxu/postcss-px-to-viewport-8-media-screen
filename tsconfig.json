@@ -9,7 +9,6 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,

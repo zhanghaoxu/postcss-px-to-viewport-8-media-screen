@@ -48,9 +48,6 @@
   "dependencies": {
     "object-assign": "^4.1.1"
   },
-  "directories": {
-    "example": "example"
-  },
   "keywords": [
     "postcss-px-to-viewport-8-plugin-media-screen",
     "postcss-px-to-viewport-8-plugin",
