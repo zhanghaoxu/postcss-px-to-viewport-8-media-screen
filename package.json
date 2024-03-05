@@ -52,6 +52,7 @@
     "example": "example"
   },
   "keywords": [
+    "postcss-px-to-viewport-8-plugin-media-screen",
     "postcss-px-to-viewport-8-plugin",
     "viewport",
     "postcss",
