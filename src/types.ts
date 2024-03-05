@@ -1,5 +1,15 @@
 import type { Rule } from 'postcss';
 
+
+export type MediaScreenOption = {
+  screen:string;
+  viewportWidth?: number| ((filePath: string) => number|undefined);
+  //default vw
+  viewportUnit?: string;
+  //default px
+  unitToConvert?:string;
+}
+
 export type OptionType = {
   //  /* px-to-viewport-ignore-next */  在另一行上，阻止下一行上的转换
   // /* px-to-viewport-ignore */  在右边的属性之后，防止在同一行上转换
@@ -52,6 +62,8 @@ export type OptionType = {
    * 媒体查询里的单位是否需要转换单位
    */
   mediaQuery?: boolean;
+
+  mediaScreen?: MediaScreenOption[];
   /**
    * 是否直接更换属性值，而不添加备用属性
    */

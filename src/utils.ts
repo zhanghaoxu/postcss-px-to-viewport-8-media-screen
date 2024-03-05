@@ -48,3 +48,7 @@ export const declarationExists = (decls: ParentExtendType[], prop: string, value
 export const validateParams = (params: string, mediaQuery: boolean) => {
   return !params || (params && mediaQuery);
 };
+
+export const validateScreen = (v1:string, v2:string )=>{
+  return  v2.replaceAll(' ','').includes(v1.replaceAll(' ',''));
+}
